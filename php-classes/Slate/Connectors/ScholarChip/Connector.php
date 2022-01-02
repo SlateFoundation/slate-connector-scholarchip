@@ -104,15 +104,17 @@ class Connector extends \Emergence\Connectors\AbstractConnector implements \Emer
                 continue;
             }
 
-            $Student->PrimaryPhoto = Media::createFromFile(
-                $tempName,
-                [
-                    'Context' => $Student,
-                    'Caption' => "ScholarChip: {$Student->FullName}"
-                ]
-            );
+            if (!$pretend) {
+                $Student->PrimaryPhoto = Media::createFromFile(
+                    $tempName,
+                    [
+                        'Context' => $Student,
+                        'Caption' => "ScholarChip: {$Student->FullName}"
+                    ]
+                );
 
-            $Student->save();
+                $Student->save();
+            }
 
             $Job->notice("Saved photo {$stat['name']} to student {$Student->Username}");
             $results['saved']++;
